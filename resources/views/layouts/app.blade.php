@@ -1,47 +1,69 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>{{ config('app.name', 'Simpeg') }}</title>
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    {{-- Vite Laravel (kalau kamu pakai React/Tailwind dll) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <style>
-            /*! tailwind fallback (compiled) included by welcome view */
-        </style>
-    @endif
+    {{-- Sneat CSS --}}
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
+
+    {{-- Optional libs (sesuaikan dengan kebutuhan dari HTML Sneat kamu) --}}
+    <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 </head>
-<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] min-h-screen">
-    <header class="border-b border-[#e3e3e0] dark:border-[#3E3E3A]">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <h1 class="text-lg font-semibold">{{ config('app.name', 'Simpeg') }}</h1>
-                <span class="text-sm text-[#706f6c]">Sistem Informasi Kepegawaian</span>
+
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            {{-- SIDEBAR --}}
+            @include('layouts.sneat-sidebar')
+
+            <div class="layout-page">
+                {{-- NAVBAR --}}
+                @include('layouts.sneat-navbar')
+
+                <div class="content-wrapper">
+                    {{-- CONTENT DINAMIS --}}
+                    <div class="container-xxl grow container-p-y">
+                        @yield('content')
+                    </div>
+
+                    {{-- FOOTER SINGKAT --}}
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                &copy; {{ date('Y') }} {{ config('app.name', 'Simpeg') }}
+                            </div>
+                        </div>
+                    </footer>
+
+                    <div class="content-backdrop fade"></div>
+                </div>
             </div>
-            <nav class="text-sm">
-                <a href="/" class="text-[#1b1b18] hover:underline mr-4">Home</a>
-                <a href="{{ route('jabatan.index') }}" class="text-[#1b1b18] hover:underline mr-4">Jabatan</a>
-                <a href="{{ route('pegawai.index') }}" class="text-[#1b1b18] hover:underline mr-4">Pegawai</a>
-                <a href="{{ route('admin.dashboard') }}" class="text-[#1b1b18] hover:underline">Admin</a>
-            </nav>
+
+            <div class="layout-overlay layout-menu-toggle"></div>
         </div>
-    </header>
+    </div>
 
-    <main class="max-w-6xl mx-auto px-4 py-8">
-        @if(session('success'))
-            <div class="mb-4 p-3 bg-green-50 text-green-800 rounded border border-green-100">{{ session('success') }}</div>
-        @endif
+    {{-- Core JS --}}
+    <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-        @yield('content')
-    </main>
+    <script src="{{ asset('sneat/assets/vendor/js/menu.js') }}"></script>
+    <script src="{{ asset('sneat/assets/js/main.js') }}"></script>
 
-    <footer class="max-w-6xl mx-auto px-4 py-6 text-sm text-[#706f6c]">
-        &copy; {{ date('Y') }} {{ config('app.name', 'Simpeg') }}
-    </footer>
+    {{-- Tempat script tambahan tiap halaman --}}
+    @stack('scripts')
 </body>
 </html>

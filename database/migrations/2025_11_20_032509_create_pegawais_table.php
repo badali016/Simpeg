@@ -13,11 +13,28 @@ return new class extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pegawai');
-            $table->string('nip')->unique();
-            $table->string('jabatan_id');
-            $table->string('email')->unique();
-            $table->string('no_telepon')->nullable();
+            $table->string('nip', 50)->unique()->comment('Nomor Induk Pegawai / Karyawan');
+            $table->string('nama', 75);
+            $table->string('panggilan', 15)->nullable();
+            $table->string('gelas_depan', 25)->nullable();
+            $table->string('gelas_belakang', 35)->nullable();
+            $table->string('tempat_lahir', 35)->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('agama', 50)->nullable();
+            $table->tinyInteger('jenis_kelamin')->nullable();
+            $table->tinyInteger('profesi')->nullable();
+
+
+            $table->tinyInteger('smf')->nullable()->comment('Spesialis/Sub. Spesialis');
+            $table->string('alamat', 150)->nullable();
+            $table->char('rt', 3)->nullable();
+            $table->char('rw', 3)->nullable();
+            $table->char('kodepos', 5)->nullable();
+            $table->char('wilayah', 10)->nullable();
+            $table->timestamp('tanggal')->nullable()->useCurrent();
+            $table->tinyInteger('non_pegawai')->nullable()->default(0)->comment('0=Pegawai; 1=Bukan Pegawai');
+            $table->string('email', 100)->nullable()->unique();
+            $table->tinyInteger('status')->nullable()->default(1);
             $table->timestamps();
         });
     }
