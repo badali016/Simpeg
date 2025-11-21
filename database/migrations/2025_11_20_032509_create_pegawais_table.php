@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('nip', 50)->unique()->comment('Nomor Induk Pegawai / Karyawan');
             $table->string('nama', 75);
             $table->string('panggilan', 15)->nullable();
-            $table->string('gelas_depan', 25)->nullable();
-            $table->string('gelas_belakang', 35)->nullable();
+            $table->string('gelar_depan', 25)->nullable();
+            $table->string('gelar_belakang', 35)->nullable();
             $table->string('tempat_lahir', 35)->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('agama', 50)->nullable();

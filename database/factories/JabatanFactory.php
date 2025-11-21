@@ -11,7 +11,23 @@ class JabatanFactory extends Factory
 {
     public function definition(): array
     {
-        $name = $this->faker->unique()->jobTitle();
+        $medicalTitles = [
+            'Dokter Spesialis',
+            'Dokter Umum',
+            'Perawat',
+            'Bidan',
+            'Analis Laboratorium',
+            'Apoteker',
+            'Fisioterapis',
+            'Radiografer',
+            'Ahli Gizi',
+            'Konsultan Medik',
+            'Tenaga Administrasi Kesehatan',
+            'Teknisi Medik',
+        ];
+
+        $name = $this->faker->unique()->randomElement($medicalTitles);
+
         return [
             'nama_jabatan' => $name,
             'kode_jabatan' => strtoupper($this->faker->bothify('JB-###')),

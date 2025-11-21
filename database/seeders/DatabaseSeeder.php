@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
         // Create some jabatans
         Jabatan::factory()->count(8)->create();
 
+        // Sync PROFESI from SIMGOS into local jabatans (optional)
+        if (class_exists(\Database\Seeders\ProfesiToJabatanSeeder::class)) {
+            $this->call(\Database\Seeders\ProfesiToJabatanSeeder::class);
+        }
+
         // Seed pegawai (creates admin pegawai + admin user and additional pegawai)
         $this->call(PegawaiSeeder::class);
 

@@ -2,10 +2,21 @@
 
 @section('content')
     <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+        @php
+            $isSimgos = is_object($pegawai) && ($pegawai->is_simgos ?? false);
+            $pegawaiKey = (is_object($pegawai) && isset($pegawai->id)) ? $pegawai->id : (method_exists($pegawai, 'getKey') ? $pegawai->getKey() : $pegawai);
+        @endphp
         <div class="flex items-start justify-between mb-4">
             <h2 class="text-xl font-semibold">Detail Pegawai</h2>
             <div class="space-x-2">
-                <a href="{{ route('pegawai.edit', $pegawai) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
+                @if($isSimgos)
+                    <form action="{{ route('pegawai.import', $pegawaiKey) }}" method="POST" class="inline">
+                        @csrf
+                        <button class="inline-flex px-3 py-1.5 bg-green-600 text-white rounded">Import</button>
+                    </form>
+                @else
+                    <a href="{{ route('pegawai.edit', $pegawaiKey) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
+                @endif
                 <a href="{{ route('pegawai.index') }}" class="inline-flex px-3 py-1.5 text-gray-600 hover:underline">Kembali</a>
             </div>
         </div>
@@ -17,7 +28,7 @@
             </div>
             <div>
                 <dt class="font-medium text-gray-600">Nama Pegawai</dt>
-                <dd>{{ $pegawai->nama_pegawai }}</dd>
+                <dd>{{ $pegawai->nama ?? $pegawai->nama_pegawai ?? $pegawai->NAMA ?? '-' }}</dd>
             </div>
             <div>
                 <dt class="font-medium text-gray-600">NIP</dt>
@@ -25,7 +36,7 @@
             </div>
             <div>
                 <dt class="font-medium text-gray-600">Jabatan</dt>
-                <dd>{{ $pegawai->jabatan?->nama_jabatan ?? '-' }}</dd>
+                <dd>{{ $pegawai->profesi_nama ?? ($pegawai->profesi ?? (optional($pegawai->jabatan)->nama_jabatan ?? '-')) }}</dd>
             </div>
             <div>
                 <dt class="font-medium text-gray-600">Email</dt>
