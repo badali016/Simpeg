@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PegawaiSimgosController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
@@ -19,7 +21,11 @@ Route::get('admin/dashboard', [DashboardController::class, 'admin'])
     ->name('admin.dashboard');
 Route::get('pegawai/dashboard', [DashboardController::class, 'pegawai'])->name('pegawai.dashboard');
 
-// Auth routes
+Route::get('pegawai', [PegawaiSimgosController::class, 'index']);
+Route::get('pegawai/{id}', [PegawaiSimgosController::class, 'show']);
+Route::get('pegawai-by-nip', [PegawaiSimgosController::class, 'findByNip']);
+
+// Authentication routes
 Route::get('login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('login', [AuthController::class, 'login'])->middleware('guest');
 Route::get('register', [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
