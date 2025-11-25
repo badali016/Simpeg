@@ -15,6 +15,7 @@
         @endif
 
         <form action="{{ route('pegawai.store') }}" method="POST">
+            @csrf
             @include('pegawai._form')
         </form>
     </div>

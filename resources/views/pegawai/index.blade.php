@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-semibold">Daftar Pegawai</h2>
         <a href="{{ route('pegawai.create') }}" class="inline-flex items-center px-4 py-2 bg-[#f53003] text-white rounded shadow hover:bg-[#d02403]">Tambah Pegawai</a>
     </div>
@@ -60,7 +60,7 @@
                                     $isSimgos = is_object($pegawai) && ($pegawai->is_simgos ?? false);
                                 @endphp
 
-                                @if($isSimgos)
+                                    @if($isSimgos)
                                     <form action="{{ route('pegawai.import', $pegawaiKey) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" class="px-3 py-1 bg-green-600 text-white rounded">Import</button>

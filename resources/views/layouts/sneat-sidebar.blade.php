@@ -22,14 +22,14 @@
             <span class="menu-header-text">Master Data</span>
         </li>
 
-        <li class="menu-item {{ request()->routeIs('jabatan.*') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('admin.jabatan.*') ? 'active' : '' }}">
             <a href="{{ route('jabatan.index') }}" class="menu-link">
                 <i class="menu-icon bx bx-briefcase-alt-2"></i>
                 <div data-i18n="Jabatan">Jabatan</div>
             </a>
         </li>
-
-        <li class="menu-item {{ request()->routeIs('pegawai.*') ? 'active' : '' }}">
+        
+        <li class="menu-item {{ request()->routeIs('admin.pegawai.*') ? 'active' : '' }}">
             <a href="{{ route('pegawai.index') }}" class="menu-link">
                 <i class="menu-icon bx bx-user"></i>
                 <div data-i18n="Pegawai">Pegawai</div>

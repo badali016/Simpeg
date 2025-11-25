@@ -30,9 +30,9 @@ Route::post('register', [AuthController::class, 'register'])->middleware('guest'
 Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Protected routes for Pegawai management
-Route::middleware(['auth', IsAdmin::class])->group(function () {{
+Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::resource('admin/jabatan', JabatanController::class);
     Route::resource('admin/pegawai', PegawaiController::class);
     // Import from SIMGOS
     Route::post('admin/pegawai/import/{id}', [PegawaiController::class, 'import'])->name('pegawai.import');
-}});
+});

@@ -14,21 +14,37 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    // Di dalam App\Http\Controllers\AuthController.php
+
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
+        // 1. Validasi input 'identity' (bukan email saja)
+        $request->validate([
+            'identity' => 'required|string', // Bisa NIP, Username, atau Email
+            'password' => 'required|string',
         ]);
 
+        // 2. Tentukan apakah login pakai Email atau Username/NIP
+        // Jika formatnya email, kita anggap email. Jika tidak, kita anggap 'nip' (atau 'username' sesuaikan dengan database kamu)
+        $loginType = filter_var($request->input('identity'), FILTER_VALIDATE_EMAIL) ? 'email' : 'nip'; 
+        // CATATAN: Ganti 'nip' di atas menjadi 'username' jika di database tabel users kolomnya bernama 'username'.
+
+        // 3. Gabungkan kredensial untuk dicoba login
+        $credentials = [
+            $loginType => $request->input('identity'),
+            'password' => $request->input('password')
+        ];
+
+        // 4. Coba Login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended(route('pegawai.dashboard'));
         }
 
+        // 5. Jika Gagal
         return back()->withErrors([
-            'email' => 'Email atau password tidak sesuai.',
-        ])->onlyInput('email');
+            'identity' => 'NIP/Email atau password salah.',
+        ])->onlyInput('identity');
     }
 
     public function showRegister()

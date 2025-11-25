@@ -12,7 +12,7 @@
         </div>
         <div class="bg-white p-6 rounded-lg shadow">
             <div class="text-sm text-gray-500">Quick Actions</div>
-            <div class="mt-3 space-x-2">
+                <div class="mt-3 space-x-2">
                 <a href="{{ route('pegawai.create') }}" class="inline-flex px-3 py-2 bg-[#f53003] text-white rounded">Tambah Pegawai</a>
                 <a href="{{ route('jabatan.create') }}" class="inline-flex px-3 py-2 bg-gray-100 text-gray-800 rounded">Tambah Jabatan</a>
             </div>

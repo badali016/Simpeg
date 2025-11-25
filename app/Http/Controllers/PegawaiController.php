@@ -242,7 +242,7 @@ class PegawaiController extends Controller
             }
         }
 
-        return redirect()->route('pegawai.index')
+        return redirect()->route('admin.pegawai.index')
             ->with('success', 'Pegawai berhasil ditambahkan.');
     }
 
@@ -343,7 +343,7 @@ class PegawaiController extends Controller
 
         $pegawai->update($data);
 
-        return redirect()->route('pegawai.index')
+        return redirect()->route('admin.pegawai.index')
             ->with('success', 'Pegawai berhasil diperbarui.');
     }
 
@@ -355,7 +355,7 @@ class PegawaiController extends Controller
         $pegawai = Pegawai::findOrFail($id);
         $pegawai->delete();
 
-        return redirect()->route('pegawai.index')
+        return redirect()->route('admin.pegawai.index')
             ->with('success', 'Pegawai berhasil dihapus.');
     }
 
@@ -366,7 +366,7 @@ class PegawaiController extends Controller
     {
         // Fetch from SIMGOS
         if (!class_exists(PegawaiSimgos::class)) {
-            return redirect()->route('pegawai.index')->with('error', 'Koneksi SIMGOS tidak tersedia.');
+            return redirect()->route('admin.pegawai.index')->with('error', 'Koneksi SIMGOS tidak tersedia.');
         }
 
         $p = PegawaiSimgos::findOrFail($id);
@@ -416,11 +416,11 @@ class PegawaiController extends Controller
         // Avoid duplicate by NIP
         $existing = Pegawai::where('nip', $p->NIP)->first();
         if ($existing) {
-            return redirect()->route('pegawai.edit', $existing->id)->with('info', 'Pegawai sudah terdaftar secara lokal.');
+            return redirect()->route('admin.pegawai.edit', $existing->id)->with('info', 'Pegawai sudah terdaftar secara lokal.');
         }
 
         $new = Pegawai::create($data);
 
-        return redirect()->route('pegawai.edit', $new->id)->with('success', 'Data pegawai berhasil diimpor dari SIMGOS.');
+        return redirect()->route('admin.pegawai.edit', $new->id)->with('success', 'Data pegawai berhasil diimpor dari SIMGOS.');
     }
 }
