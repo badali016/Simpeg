@@ -7,9 +7,12 @@ use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\PegawaiSimgos;
 use App\Models\ReferensiSimgos;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class PegawaiController extends Controller
@@ -110,7 +113,7 @@ class PegawaiController extends Controller
             });
 
             $pegawais = $pag;
-            return view('pegawai.index', compact('pegawais'));
+                return view('pegawai.index', compact('pegawais'));
         }
 
         $pegawais = Pegawai::with('jabatan')->orderBy('created_at', 'desc')->paginate(10);
@@ -177,7 +180,18 @@ class PegawaiController extends Controller
             }
         }
 
-        return view('pegawai.index', compact('pegawais'));
+        // build users lookup for local pegawais so view can show "Buat User" buttons
+        try {
+            $ids = $pegawais->getCollection()->pluck('id')->filter()->unique()->toArray();
+            $usersByPegawai = collect([]);
+            if (!empty($ids)) {
+                $usersByPegawai = User::whereIn('pegawai_id', $ids)->get()->keyBy('pegawai_id');
+            }
+        } catch (\Exception $e) {
+            $usersByPegawai = collect([]);
+        }
+
+        return view('pegawai.index', compact('pegawais', 'usersByPegawai'));
     }
 
     /**
@@ -422,5 +436,118 @@ class PegawaiController extends Controller
         $new = Pegawai::create($data);
 
         return redirect()->route('admin.pegawai.edit', $new->id)->with('success', 'Data pegawai berhasil diimpor dari SIMGOS.');
+    }
+
+    /**
+     * Create a User for a pegawai reference (local or simgos) and redirect to edit.
+     * Accepts POST param `ref` with value like `local-123` or `simgos-19827345`.
+     */
+    public function createUserFromRef(Request $request)
+    {
+        $ref = $request->input('ref');
+        if (empty($ref)) {
+            return redirect()->back()->with('error', 'Referensi pegawai tidak diberikan.');
+        }
+
+        // Determine type
+        if (Str::startsWith($ref, 'local-')) {
+            $id = intval(Str::after($ref, 'local-'));
+            $pegawai = Pegawai::find($id);
+            if (! $pegawai) {
+                return redirect()->back()->with('error', 'Pegawai lokal tidak ditemukan.');
+            }
+        } elseif (Str::startsWith($ref, 'simgos-')) {
+            $nip = Str::after($ref, 'simgos-');
+            // attempt to import first
+            if (! class_exists(PegawaiSimgos::class)) {
+                return redirect()->back()->with('error', 'Koneksi SIMGOS tidak tersedia.');
+            }
+            try {
+                $s = PegawaiSimgos::where('NIP', $nip)->first();
+                if (! $s) {
+                    return redirect()->back()->with('error', 'Data SIMGOS tidak ditemukan.');
+                }
+
+                // reuse import mapping logic
+                $data = [
+                    'nip' => $s->NIP,
+                    'nama' => $s->NAMA,
+                    'panggilan' => $s->PANGGILAN ?? null,
+                    'gelar_depan' => $s->GELAR_DEPAN ?? null,
+                    'gelar_belakang' => $s->GELAR_BELAKANG ?? null,
+                    'tempat_lahir' => $s->TEMPAT_LAHIR ?? null,
+                    'tanggal_lahir' => isset($s->TANGGAL_LAHIR) && $s->TANGGAL_LAHIR ? $s->TANGGAL_LAHIR->format('Y-m-d') : null,
+                    'agama' => $s->AGAMA ?? null,
+                    'jenis_kelamin' => $s->JENIS_KELAMIN ?? null,
+                    'profesi' => $s->PROFESI ?? null,
+                    'smf' => $s->SMF ?? null,
+                    'alamat' => $s->ALAMAT ?? null,
+                    'rt' => $s->RT ?? null,
+                    'rw' => $s->RW ?? null,
+                    'kodepos' => $s->KODEPOS ?? null,
+                    'wilayah' => $s->WILAYAH ?? null,
+                    'email' => $s->EMAIL ?? null,
+                    'tanggal' => $s->TANGGAL ?? null,
+                    'non_pegawai' => $s->NON_PEGAWAI ?? null,
+                    'status' => $s->STATUS ?? null,
+                ];
+
+                // try map PROFESI -> jabatan
+                $jabatanId = null;
+                try {
+                    if (isset($s->PROFESI) && class_exists(ReferensiSimgos::class)) {
+                        $refObj = ReferensiSimgos::where('JENIS', 36)->where('ID', $s->PROFESI)->first();
+                        $kode = 'PRF-' . ($s->PROFESI ?? '0');
+                        $nama = $refObj->DESKRIPSI ?? ('Profesi ' . ($s->PROFESI ?? ''));
+                        $jab = Jabatan::firstOrCreate(['kode_jabatan' => $kode], ['nama_jabatan' => $nama, 'eselon' => null, 'unit_kerja' => null, 'status' => 'Aktif']);
+                        $jabatanId = $jab->id ?? null;
+                    }
+                } catch (\Exception $e) {
+                    $jabatanId = null;
+                }
+
+                if ($jabatanId) {
+                    $data['jabatan_id'] = $jabatanId;
+                }
+
+                // if already exists local by NIP, reuse
+                $existing = Pegawai::where('nip', $s->NIP)->first();
+                if ($existing) {
+                    $pegawai = $existing;
+                } else {
+                    $pegawai = Pegawai::create($data);
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to import SIMGOS for createUser: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Gagal mengimpor data SIMGOS.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Format referensi tidak dikenal.');
+        }
+
+        // Now we have $pegawai local model
+        if (! $pegawai) {
+            return redirect()->back()->with('error', 'Gagal menemukan atau membuat pegawai lokal.');
+        }
+
+        // If a user already exists for this pegawai, redirect to edit
+        $existingUser = User::where('pegawai_id', $pegawai->id)->first();
+        if ($existingUser) {
+            return redirect()->route('admin.users.edit', $existingUser->id)->with('info', 'User untuk pegawai sudah ada.');
+        }
+
+        // create a user (default non-admin)
+        $email = $pegawai->email ?: ($pegawai->nip ? $pegawai->nip . '@local' : null);
+        $passwordPlain = Str::random(12);
+        $user = User::create([
+            'name' => $pegawai->nama ?? ('Pegawai ' . ($pegawai->id ?? '')), 
+            'email' => $email,
+            'password' => Hash::make($passwordPlain),
+            'pegawai_id' => $pegawai->id,
+            'is_admin' => 0,
+        ]);
+
+        // You might want to email the password; for now we flash it (admins) — keep brief
+        return redirect()->route('admin.users.edit', $user->id)->with('success', 'User berhasil dibuat. Password sementara: ' . $passwordPlain);
     }
 }

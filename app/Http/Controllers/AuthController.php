@@ -38,7 +38,7 @@ class AuthController extends Controller
         // 4. Coba Login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('pegawai.dashboard'));
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         // 5. Jika Gagal

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+    @include('components.neon-styles')
+    <div class="max-w-2xl mx-auto neon-card">
         @php
             $isSimgos = is_object($pegawai) && ($pegawai->is_simgos ?? false);
             $pegawaiKey = (is_object($pegawai) && isset($pegawai->id)) ? $pegawai->id : (method_exists($pegawai, 'getKey') ? $pegawai->getKey() : $pegawai);
@@ -10,14 +11,14 @@
             <h2 class="text-xl font-semibold">Detail Pegawai</h2>
             <div class="space-x-2">
                 @if($isSimgos)
-                    <form action="{{ route('pegawai.import', $pegawaiKey) }}" method="POST" class="inline">
+                        <form action="{{ route('admin.pegawai.import', $pegawaiKey) }}" method="POST" class="inline">
                         @csrf
                         <button class="inline-flex px-3 py-1.5 bg-green-600 text-white rounded">Import</button>
                     </form>
                 @else
-                    <a href="{{ route('pegawai.edit', $pegawaiKey) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
+                        <a href="{{ route('admin.pegawai.edit', $pegawaiKey) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
                 @endif
-                <a href="{{ route('pegawai.index') }}" class="inline-flex px-3 py-1.5 text-gray-600 hover:underline">Kembali</a>
+                    <a href="{{ route('admin.pegawai.index') }}" class="inline-flex px-3 py-1.5 text-blue-200 hover:underline">Kembali</a>
             </div>
         </div>
 

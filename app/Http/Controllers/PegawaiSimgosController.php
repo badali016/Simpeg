@@ -65,6 +65,27 @@ class PegawaiSimgosController extends Controller
         return response()->json($transformed, 200);
     }
 
+    // AJAX search for autocomplete (q parameter searches NIP or NAMA)
+    public function search(Request $request)
+    {
+        $q = $request->query('q');
+        if (empty($q)) {
+            return response()->json([], 200);
+        }
+
+        try {
+            $results = PegawaiSimgos::where('NIP', 'like', "%{$q}%")
+                ->orWhere('NAMA', 'like', "%{$q}%")
+                ->orderBy('NAMA')
+                ->limit(20)
+                ->get(['ID', 'NIP', 'NAMA']);
+
+            return response()->json($results, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'SIMOGS search error'], 500);
+        }
+    }
+
     // ambil referensi yang diperlukan dan buat lookup [JENIS][ID] => DESKRIPSI
     private function getReferensiForFields()
     {

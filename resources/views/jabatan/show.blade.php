@@ -5,8 +5,8 @@
         <div class="flex items-start justify-between mb-4">
             <h2 class="text-xl font-semibold">Detail Jabatan</h2>
             <div class="space-x-2">
-                <a href="{{ route('jabatan.edit', $jabatan) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
-                <a href="{{ route('jabatan.index') }}" class="inline-flex px-3 py-1.5 text-gray-600 hover:underline">Kembali</a>
+                <a href="{{ route('admin.jabatan.edit', $jabatan) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
+                <a href="{{ route('admin.jabatan.index') }}" class="inline-flex px-3 py-1.5 text-gray-600 hover:underline">Kembali</a>
             </div>
         </div>
 

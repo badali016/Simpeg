@@ -8,7 +8,6 @@
     />
     <title>{{ config('app.name', 'Simpeg') }}</title>
 
-    {{-- Vite Laravel (kalau kamu pakai React/Tailwind dll) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Sneat CSS --}}
@@ -17,12 +16,13 @@
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/css/theme-default.css') }}" />
     <link rel="stylesheet" href="{{ asset('sneat/assets/css/demo.css') }}" />
 
-    {{-- Optional libs (sesuaikan dengan kebutuhan dari HTML Sneat kamu) --}}
     <link rel="stylesheet" href="{{ asset('sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    @include('components.neon-styles')
 </head>
 
 <body>
-    <div class="layout-wrapper layout-content-navbar">
+    @include('components.neon-bg')
+    <div class="layout-wrapper layout-content-navbar relative" style="z-index: 1;">
         <div class="layout-container">
             {{-- SIDEBAR --}}
             @include('layouts.sneat-sidebar')
@@ -54,7 +54,6 @@
         </div>
     </div>
 
-    {{-- Core JS --}}
     <script src="{{ asset('sneat/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('sneat/assets/vendor/js/bootstrap.js') }}"></script>
@@ -63,7 +62,6 @@
     <script src="{{ asset('sneat/assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('sneat/assets/js/main.js') }}"></script>
 
-    {{-- Tempat script tambahan tiap halaman --}}
     @stack('scripts')
 </body>
 </html>

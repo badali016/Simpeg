@@ -1,44 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-semibold">Dashboard Pegawai</h2>
-        <a href="{{ route('pegawai.create') }}" class="inline-flex items-center px-4 py-2 bg-[#f53003] text-white rounded shadow hover:bg-[#d02403]">Tambah Pegawai</a>
-    </div>
+    @include('components.neon-styles')
+    
+    <div class="max-w-2xl mx-auto card p-6 rounded-lg shadow">
+        <div class="flex items-start justify-between mb-6 border-b border-white/10 pb-4">
+            <h2 class="text-xl font-semibold text-white">Profil Pegawai</h2>
+            <a href="{{ route('pegawai.dashboard') }}" class="inline-flex px-3 py-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition">Kembali</a>
+        </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        @if($pegawais->count())
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIP</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jabatan</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($pegawais as $pegawai)
-                        <tr>
-                            <td class="px-6 py-4 text-sm"><a href="{{ route('pegawai.show', $pegawai) }}" class="font-medium text-[#1b1b18] hover:underline">{{ $pegawai->nama_pegawai }}</a></td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ $pegawai->nip }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ $pegawai->jabatan?->nama_jabatan ?? '-' }}</td>
-                            <td class="px-6 py-4 text-sm">
-                                <a href="{{ route('pegawai.show', $pegawai) }}" class="text-[#f53003] hover:underline">Lihat</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+            <div>
+                <dt class="font-medium text-blue-300 mb-1">Nama</dt>
+                <dd class="text-white text-lg">{{ $pegawai->nama_pegawai }}</dd>
             </div>
-
-            <div class="px-6 py-4 bg-white border-t border-gray-100">
-                {{ $pegawais->links() }}
+            <div>
+                <dt class="font-medium text-blue-300 mb-1">NIP</dt>
+                <dd class="text-slate-300">{{ $pegawai->nip }}</dd>
             </div>
-        @else
-            <div class="p-6 text-center text-gray-600">Tidak ada data pegawai.</div>
-        @endif
+            <div>
+                <dt class="font-medium text-blue-300 mb-1">Jabatan</dt>
+                <dd class="text-slate-300">{{ $pegawai->jabatan?->nama_jabatan ?? '-' }}</dd>
+            </div>
+            <div>
+                <dt class="font-medium text-blue-300 mb-1">Email</dt>
+                <dd class="text-slate-300">{{ $pegawai->email ?? '-' }}</dd>
+            </div>
+            <div>
+                <dt class="font-medium text-blue-300 mb-1">No. Telepon</dt>
+                <dd class="text-slate-300">{{ $pegawai->no_telepon ?? '-' }}</dd>
+            </div>
+        </dl>
     </div>
-
 @endsection

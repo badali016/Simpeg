@@ -31,8 +31,21 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 
 // Protected routes for Pegawai management
 Route::middleware(['auth', IsAdmin::class])->group(function () {
-    Route::resource('admin/jabatan', JabatanController::class);
-    Route::resource('admin/pegawai', PegawaiController::class);
+    Route::resource('admin/jabatan', JabatanController::class, ['as' => 'admin']);
+    Route::resource('admin/pegawai', PegawaiController::class, ['as' => 'admin']);
+    Route::resource('admin/users', \App\Http\Controllers\UserController::class, ['as' => 'admin']);
+        // SIMGOS AJAX search for autocomplete
+        Route::get('admin/simgos/search', [PegawaiSimgosController::class, 'search'])->name('admin.simgos.search');
+        // Auto-create user from pegawai reference (local or simgos)
+        Route::post('admin/pegawai/create-user', [PegawaiController::class, 'createUserFromRef'])->name('admin.pegawai.create_user');
     // Import from SIMGOS
-    Route::post('admin/pegawai/import/{id}', [PegawaiController::class, 'import'])->name('pegawai.import');
+    Route::post('admin/pegawai/import/{id}', [PegawaiController::class, 'import'])->name('admin.pegawai.import');
 });
+
+// Halaman Portal Depan (Welcome)
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Halaman Login yang sudah kita buat tadi (ganti nama viewnya jika beda)
+Route::get('/login-simpeg', [AuthController::class, 'showLogin'])->name('login.simpeg');

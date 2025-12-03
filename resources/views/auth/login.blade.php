@@ -156,7 +156,7 @@
                 @csrf
                 
                 <div>
-                    <label class="block text-xs font-bold text-blue-300 uppercase mb-2 tracking-wider">NIP / ID</label>
+                    <label class="block text-xs font-bold text-blue-300 uppercase mb-2 tracking-wider">NIP / ID / EMAIL</label>
                     <input type="text" name="identity" required autofocus
                         class="input-tech w-full px-4 py-3 rounded-xl focus:outline-none"
                         placeholder="Contoh: 1998200...">

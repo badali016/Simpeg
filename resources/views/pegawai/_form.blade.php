@@ -37,6 +37,6 @@
 </div>
 
 <div class="mt-6 flex items-center gap-3">
-    <button type="submit" class="inline-flex items-center px-4 py-2 bg-[#f53003] text-white rounded-md shadow hover:bg-[#d02403]">Simpan</button>
-    <a href="{{ route('pegawai.index') }}" class="text-sm text-gray-600 hover:underline">Batal</a>
+    <button type="submit" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-md shadow">Simpan</button>
+       <a href="{{ route('admin.pegawai.index') }}" class="text-sm text-blue-200 hover:underline">Batal</a>
 </div>
