@@ -38,7 +38,17 @@ class AuthController extends Controller
         // 4. Coba Login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.dashboard'));
+            $user = Auth::user();
+            // Redirect based on role: admin -> admin dashboard; pegawai -> portal; otherwise home
+            if ($user->is_admin) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            if ($user->pegawai_id) {
+                return redirect()->route('pegawai.portal');
+            }
+
+            return redirect()->route('pegawai.dashboard');
         }
 
         // 5. Jika Gagal

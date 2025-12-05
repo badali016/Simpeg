@@ -14,6 +14,11 @@
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             @auth
+                @if(auth()->user()->pegawai_id)
+                    <li class="nav-item d-none d-sm-block me-2">
+                        <a href="{{ route('pegawai.portal') }}" class="btn btn-sm btn-outline-primary">Portal Pegawai</a>
+                    </li>
+                @endif
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                     <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
                         <div class="avatar avatar-online">

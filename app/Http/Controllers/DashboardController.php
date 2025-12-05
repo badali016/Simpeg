@@ -110,6 +110,11 @@ class DashboardController extends Controller
      */
     public function pegawai(Request $request)
     {
+        // If an authenticated user is a pegawai, redirect them to the pegawai portal
+        if (auth()->check() && auth()->user()->pegawai_id) {
+            return redirect()->route('pegawai.portal');
+        }
+
         // If an ID is provided, show that pegawai profile; otherwise show list.
         // detect SIMGOS usage like in PegawaiController
         $source = $request->get('source');

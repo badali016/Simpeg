@@ -36,4 +36,14 @@ class Pegawai extends Model
     {
         return $this->belongsTo(Jabatan::class);
     }  
+
+    public function attendances()
+    {
+        return $this->hasMany(\App\Models\Attendance::class);
+    }
+
+    public function leaveRequests()
+    {
+        return $this->hasMany(\App\Models\LeaveRequest::class);
+    }
 }

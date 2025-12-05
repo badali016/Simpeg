@@ -25,7 +25,17 @@
     <div class="layout-wrapper layout-content-navbar relative" style="z-index: 1;">
         <div class="layout-container">
             {{-- SIDEBAR --}}
-            @include('layouts.sneat-sidebar')
+            @auth
+                @if(auth()->user()->is_admin)
+                    @include('layouts.sneat-sidebar')
+                @elseif(auth()->user()->pegawai_id)
+                    @include('layouts.pegawai-sidebar')
+                @else
+                    @include('layouts.sneat-sidebar')
+                @endif
+            @else
+                @include('layouts.sneat-sidebar')
+            @endauth
 
             <div class="layout-page">
                 {{-- NAVBAR --}}
@@ -61,6 +71,55 @@
 
     <script src="{{ asset('sneat/assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('sneat/assets/js/main.js') }}"></script>
+
+    {{-- Toast container for flash messages --}}
+    <div id="flash-toasts" style="position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;"></div>
+
+    <script>
+        (function () {
+            function showToast(type, msg) {
+                var el = document.createElement('div');
+                el.className = 'toast px-4 py-2 rounded shadow-lg';
+                var bg = '#374151';
+                if (type === 'success') bg = '#10B981';
+                if (type === 'error') bg = '#EF4444';
+                if (type === 'info') bg = '#3B82F6';
+                if (type === 'warning') bg = '#F59E0B';
+                el.style.background = bg;
+                el.style.color = '#fff';
+                el.style.marginTop = '0';
+                el.style.opacity = '1';
+                el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                el.style.transform = 'translateY(0)';
+                el.textContent = msg;
+                var container = document.getElementById('flash-toasts');
+                container.appendChild(el);
+                // Auto-hide after 4s
+                setTimeout(function () { el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; setTimeout(function(){ el.remove(); }, 450); }, 4000);
+            }
+
+            // Helper to escape backticks/newlines
+            function esc(s) { return String(s).replace(/\r|\n/g, ' ').replace(/"/g, '\\"'); }
+
+            // Inject server flash messages
+            @if(session('success'))
+                showToast('success', "{{ addslashes(session('success')) }}");
+            @endif
+            @if(session('error'))
+                showToast('error', "{{ addslashes(session('error')) }}");
+            @endif
+            @if(session('info'))
+                showToast('info', "{{ addslashes(session('info')) }}");
+            @endif
+            @if(session('warning'))
+                showToast('warning', "{{ addslashes(session('warning')) }}");
+            @endif
+
+            @if(isset($errors) && $errors->any())
+                showToast('error', "{{ addslashes($errors->first()) }}");
+            @endif
+        })();
+    </script>
 
     @stack('scripts')
 </body>
