@@ -3,9 +3,9 @@
 @section('content')
 @include('components.neon-styles')
 
-<div class="mb-6">
-    <h2 class="text-2xl text-white">Pengajuan Cuti / Izin (Admin)</h2>
-    <p class="text-sm text-blue-200">Daftar pengajuan terbaru</p>
+<div class="mb-4 md:mb-6">
+    <h2 class="text-xl md:text-2xl text-slate-900 font-bold">Pengajuan Cuti / Izin (Admin)</h2>
+    <p class="text-xs md:text-sm text-slate-600">Daftar pengajuan terbaru</p>
 </div>
 
 <style>
@@ -14,31 +14,33 @@
     .admin-leaves-card button, .admin-leaves-card a { pointer-events: auto; }
 </style>
 
-<div class="admin-leaves-card card p-6 bg-slate-800/50 border border-slate-700 rounded-lg shadow-lg">
-    <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-slate-700 text-sm text-blue-200">
-            <thead class="bg-slate-900/40">
+<div class="admin-leaves-card card p-4 md:p-6 bg-white border border-slate-200 rounded-lg shadow-lg">
+    <div class="overflow-x-auto -mx-4 md:mx-0">
+        <table class="min-w-full divide-y divide-slate-300 text-sm text-slate-700">
+            <thead class="bg-slate-100">
                 <tr>
-                    <th class="px-4 py-3 text-left">#</th>
-                    <th class="px-4 py-3 text-left">Pegawai</th>
-                    <th class="px-4 py-3 text-left">Tipe</th>
-                    <th class="px-4 py-3 text-left">Periode</th>
-                    <th class="px-4 py-3 text-left">Status</th>
-                    <th class="px-4 py-3 text-left">Aksi</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap">#</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap">Pegawai</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap hidden lg:table-cell">Jabatan</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap">Tipe</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap hidden md:table-cell">Periode</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap">Status</th>
+                    <th class="px-3 md:px-4 py-2 md:py-3 text-left text-slate-900 font-semibold text-xs whitespace-nowrap">Aksi</th>
                 </tr>
             </thead>
             <tbody class="bg-transparent">
                 @foreach($leaves as $leave)
-                    <tr data-href="{{ route('admin.leaves.show', $leave->id) }}" class="group hover:bg-slate-800 cursor-pointer">
-                        <td class="px-4 py-3">{{ ($leaves->firstItem() ?? 0) + $loop->index }}</td>
-                        <td class="px-4 py-3">{{ optional($leave->pegawai)->nama ?? '—' }}</td>
-                        <td class="px-4 py-3">{{ $leave->type }}</td>
-                        <td class="px-4 py-3">{{ $leave->starts_at }} &rarr; {{ $leave->ends_at }}</td>
-                        <td class="px-4 py-3">@php $s = $leave->status; @endphp
-                        <span class="px-2 py-1 rounded text-xs {{ $s === 'approved' ? 'bg-emerald-600' : ($s === 'rejected' ? 'bg-red-600' : 'bg-yellow-500') }} text-black">{{ $s }}</span>
+                    <tr data-href="{{ route('admin.leaves.show', $leave->id) }}" class="group hover:bg-slate-50 cursor-pointer">
+                        <td class="px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-slate-700 whitespace-nowrap">{{ ($leaves->firstItem() ?? 0) + $loop->index }}</td>
+                        <td class="px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-slate-900 font-medium whitespace-nowrap">{{ optional($leave->pegawai)->nama ?? '—' }}</td>
+                        <td class="px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-slate-600 whitespace-nowrap hidden lg:table-cell">{{ optional($leave->pegawai->jabatan)->nama ?? '—' }}</td>
+                        <td class="px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-slate-700 whitespace-nowrap">{{ $leave->type }}</td>
+                        <td class="px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-slate-700 whitespace-nowrap hidden md:table-cell">{{ $leave->starts_at }} &rarr; {{ $leave->ends_at }}</td>
+                        <td class="px-3 md:px-4 py-2 md:py-3 whitespace-nowrap">@php $s = $leave->status; @endphp
+                        <span class="px-2 py-1 rounded text-xs font-semibold {{ $s === 'approved' ? 'bg-emerald-600' : ($s === 'rejected' ? 'bg-red-600' : 'bg-yellow-500') }} text-white">{{ $s }}</span>
                         </td>
-                        <td class="px-4 py-3">
-                            <button type="button" class="inline-block px-3 py-1 bg-indigo-600 text-white rounded text-sm" onclick="window.location='{{ route('admin.leaves.show', $leave->id) }}'">Lihat</button>
+                        <td class="px-3 md:px-4 py-2 md:py-3 whitespace-nowrap">
+                            <button type="button" class="inline-block px-2 md:px-3 py-1.5 min-h-[36px] bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs" onclick="window.location='{{ route('admin.leaves.show', $leave->id) }}'">Lihat</button>
                         </td>
                     </tr>
                 @endforeach

@@ -73,7 +73,30 @@
     <script src="{{ asset('sneat/assets/js/main.js') }}"></script>
 
     {{-- Toast container for flash messages --}}
-    <div id="flash-toasts" style="position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;"></div>
+    <div id="flash-toasts" style="position:fixed;right:10px;bottom:10px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:calc(100vw - 20px);"></div>
+    
+    <style>
+        @media (min-width: 640px) {
+            #flash-toasts {
+                right: 20px;
+                bottom: 20px;
+                max-width: 400px;
+            }
+        }
+        
+        .toast {
+            font-size: 14px;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+        
+        @media (max-width: 639px) {
+            .toast {
+                font-size: 13px;
+                padding: 12px 16px !important;
+            }
+        }
+    </style>
 
     <script>
         (function () {

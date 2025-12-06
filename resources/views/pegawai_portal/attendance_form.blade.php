@@ -3,8 +3,8 @@
 @section('content')
 @include('components.neon-styles')
 
-<h2 class="text-2xl text-white mb-2">Presensi (Clock-in/out)</h2>
-<div class="card p-4">
+<h2 class="text-xl md:text-2xl text-white mb-2">Presensi (Clock-in/out)</h2>
+<div class="card p-4 md:p-6">
     <form method="POST" action="{{ route('pegawai.attendance.store') }}" id="attendance-form">
         @csrf
         <input type="hidden" name="type" value="in" />
@@ -14,10 +14,10 @@
 
         <div class="mb-3">
             <label class="block text-sm text-blue-100">Lokasi saat ini</label>
-            <div class="flex gap-2 items-center">
-                <div id="location-status" class="text-sm text-slate-400">Belum mengambil lokasi</div>
-                <button type="button" id="detect-location" class="px-3 py-1 bg-indigo-600 text-white rounded text-sm">Ambil Lokasi</button>
-                <button type="button" id="retry-location" class="px-3 py-1 bg-slate-700 text-white rounded text-sm hidden">Coba Lagi</button>
+            <div class="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                <div id="location-status" class="text-xs md:text-sm text-slate-400">Belum mengambil lokasi</div>
+                <button type="button" id="detect-location" class="px-3 py-2 min-h-[44px] bg-indigo-600 text-white rounded text-sm whitespace-nowrap">Ambil Lokasi</button>
+                <button type="button" id="retry-location" class="px-3 py-2 min-h-[44px] bg-slate-700 text-white rounded text-sm hidden whitespace-nowrap">Coba Lagi</button>
             </div>
             <div id="location-info" class="mt-2 text-xs text-slate-400"></div>
 
@@ -27,9 +27,9 @@
 
             <div id="manual-entry" class="mt-2 hidden">
                 <label class="block text-xs text-slate-400">Latitude</label>
-                <input type="text" id="manual-lat" name="latitude_manual" class="w-48 mt-1 rounded-md bg-slate-800 text-white px-3 py-2" />
+                <input type="text" id="manual-lat" name="latitude_manual" class="w-full sm:w-48 mt-1 rounded-md bg-slate-800 text-white px-3 py-2 min-h-[44px]" />
                 <label class="block text-xs text-slate-400 mt-2">Longitude</label>
-                <input type="text" id="manual-lng" name="longitude_manual" class="w-48 mt-1 rounded-md bg-slate-800 text-white px-3 py-2" />
+                <input type="text" id="manual-lng" name="longitude_manual" class="w-full sm:w-48 mt-1 rounded-md bg-slate-800 text-white px-3 py-2 min-h-[44px]" />
                 <div class="mt-2">
                     <button type="button" id="apply-manual" class="px-3 py-1 bg-emerald-600 text-white rounded text-sm">Gunakan Lokasi Manual</button>
                 </div>
@@ -37,9 +37,9 @@
         </div>
         <div class="mb-3">
             <label class="block text-sm text-blue-100">Catatan</label>
-            <textarea name="notes" class="w-full mt-1 rounded-md bg-slate-800 text-white px-3 py-2"></textarea>
+            <textarea name="notes" class="w-full mt-1 rounded-md bg-slate-800 text-white px-3 py-2 min-h-[80px]"></textarea>
         </div>
-        <button class="px-4 py-2 bg-emerald-500 text-white rounded" id="attendance-submit">Clock In / Submit</button>
+        <button class="w-full sm:w-auto px-4 py-3 min-h-[52px] bg-emerald-500 text-white rounded font-semibold" id="attendance-submit">Clock In / Submit</button>
     </form>
 </div>
  

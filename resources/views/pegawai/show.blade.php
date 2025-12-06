@@ -2,27 +2,27 @@
 
 @section('content')
     @include('components.neon-styles')
-    <div class="max-w-2xl mx-auto neon-card">
+    <div class="max-w-2xl mx-auto neon-card px-4 sm:px-0">
         @php
             $isSimgos = is_object($pegawai) && ($pegawai->is_simgos ?? false);
             $pegawaiKey = (is_object($pegawai) && isset($pegawai->id)) ? $pegawai->id : (method_exists($pegawai, 'getKey') ? $pegawai->getKey() : $pegawai);
         @endphp
-        <div class="flex items-start justify-between mb-4">
-            <h2 class="text-xl font-semibold">Detail Pegawai</h2>
-            <div class="space-x-2">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+            <h2 class="text-lg md:text-xl font-semibold">Detail Pegawai</h2>
+            <div class="flex gap-2 flex-wrap">
                 @if($isSimgos)
                         <form action="{{ route('admin.pegawai.import', $pegawaiKey) }}" method="POST" class="inline">
                         @csrf
-                        <button class="inline-flex px-3 py-1.5 bg-green-600 text-white rounded">Import</button>
+                        <button class="inline-flex px-3 py-2 min-h-[40px] items-center bg-green-600 text-white rounded text-sm">Import</button>
                     </form>
                 @else
-                        <a href="{{ route('admin.pegawai.edit', $pegawaiKey) }}" class="inline-flex px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded">Edit</a>
+                        <a href="{{ route('admin.pegawai.edit', $pegawaiKey) }}" class="inline-flex px-3 py-2 min-h-[40px] items-center bg-yellow-100 text-yellow-800 rounded text-sm">Edit</a>
                 @endif
-                    <a href="{{ route('admin.pegawai.index') }}" class="inline-flex px-3 py-1.5 text-blue-200 hover:underline">Kembali</a>
+                    <a href="{{ route('admin.pegawai.index') }}" class="inline-flex px-3 py-2 min-h-[40px] items-center text-blue-200 hover:underline text-sm">Kembali</a>
             </div>
         </div>
 
-        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-700">
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-6 gap-y-3 text-xs md:text-sm text-gray-700">
             <div>
                 <dt class="font-medium text-gray-600">ID</dt>
                 <dd>{{ $pegawai->id }}</dd>

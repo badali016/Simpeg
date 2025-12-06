@@ -4,8 +4,8 @@
 @include('components.neon-styles')
 
 <div class="mb-4">
-    <h2 class="text-2xl text-white">Detail Pengajuan Cuti / Izin</h2>
-    <p class="text-sm text-blue-200">Detail dan aksi untuk pengajuan</p>
+    <h2 class="text-2xl text-slate-900 font-bold">Detail Pengajuan Cuti / Izin</h2>
+    <p class="text-sm text-slate-600">Detail dan aksi untuk pengajuan</p>
 </div>
 
 <style>
@@ -13,32 +13,36 @@
     .admin-leave-detail button, .admin-leave-detail a { pointer-events: auto; }
 </style>
 
-<div class="admin-leave-detail card p-6 bg-slate-800/50 border border-slate-700 rounded-lg shadow-lg">
-    <dl class="grid grid-cols-2 gap-4 text-blue-200">
+<div class="admin-leave-detail card p-6 bg-white border border-slate-200 rounded-lg shadow-lg">
+    <dl class="grid grid-cols-2 gap-4 text-slate-700">
         <div>
-            <dt class="font-bold">Pegawai</dt>
+            <dt class="font-bold text-slate-900">Pegawai</dt>
             <dd>{{ optional($leave->pegawai)->nama ?? '—' }}</dd>
         </div>
         <div>
-            <dt class="font-bold">Tipe</dt>
+            <dt class="font-bold text-slate-900">Jabatan</dt>
+            <dd>{{ optional($leave->pegawai->jabatan)->nama ?? '—' }}</dd>
+        </div>
+        <div>
+            <dt class="font-bold text-slate-900">Tipe</dt>
             <dd>{{ $leave->type }}</dd>
         </div>
         <div>
-            <dt class="font-bold">Periode</dt>
+            <dt class="font-bold text-slate-900">Periode</dt>
             <dd>{{ $leave->starts_at }} &rarr; {{ $leave->ends_at }}</dd>
         </div>
         <div>
-            <dt class="font-bold">Status</dt>
+            <dt class="font-bold text-slate-900">Status</dt>
             <dd>{{ $leave->status }}</dd>
         </div>
         <div class="col-span-2">
-            <dt class="font-bold">Alasan</dt>
+            <dt class="font-bold text-slate-900">Alasan</dt>
             <dd>{{ $leave->reason }}</dd>
         </div>
         @if($leave->proof_path)
             <div class="col-span-2">
-                <dt class="font-bold">Bukti</dt>
-                <dd><a href="{{ asset('storage/' . $leave->proof_path) }}" target="_blank" class="text-emerald-300">Lihat berkas</a></dd>
+                <dt class="font-bold text-slate-900">Bukti</dt>
+                <dd><a href="{{ asset('storage/' . $leave->proof_path) }}" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">Lihat berkas</a></dd>
             </div>
         @endif
     </dl>
@@ -46,15 +50,15 @@
     <div class="mt-4 flex gap-3">
         <form action="{{ route('admin.leaves.approve', $leave->id) }}" method="post">
             @csrf
-            <button type="submit" class="px-4 py-2 bg-emerald-600 text-white rounded">Setujui</button>
+            <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded">Setujui</button>
         </form>
 
         <form action="{{ route('admin.leaves.reject', $leave->id) }}" method="post">
             @csrf
-            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Tolak</button>
+            <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">Tolak</button>
         </form>
 
-        <a href="{{ route('admin.leaves.index') }}" class="px-4 py-2 bg-slate-700 text-white rounded">Kembali</a>
+        <a href="{{ route('admin.leaves.index') }}" class="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded">Kembali</a>
     </div>
 </div>
 

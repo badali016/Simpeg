@@ -256,7 +256,9 @@ class PegawaiController extends Controller
             }
         }
 
-        return redirect()->route('admin.pegawai.index')
+        // Redirect to the local pegawai edit page so the record is visible
+        // even when SIMGOS is configured as the default listing source.
+        return redirect()->route('admin.pegawai.edit', $new->id)
             ->with('success', 'Pegawai berhasil ditambahkan.');
     }
 

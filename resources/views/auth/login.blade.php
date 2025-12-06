@@ -106,19 +106,19 @@
 
     <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
         
-        <svg class="shape-svg stroke-cyan-500 w-64 h-64 top-10 left-10 animate-spin-slow" viewBox="0 0 24 24">
+        <svg class="shape-svg stroke-cyan-500 w-32 h-32 md:w-64 md:h-64 top-10 left-5 md:left-10 animate-spin-slow" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5v9l9 5.25 9-5.25v-9z" />
         </svg>
 
-        <svg class="shape-svg stroke-blue-500 w-48 h-48 bottom-20 right-20 animate-float-slow" viewBox="0 0 24 24">
+        <svg class="shape-svg stroke-blue-500 w-24 h-24 md:w-48 md:h-48 bottom-10 md:bottom-20 right-5 md:right-20 animate-float-slow" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
 
-        <svg class="shape-svg stroke-indigo-500 w-32 h-32 top-1/2 left-20 animate-float-medium" viewBox="0 0 24 24">
+        <svg class="shape-svg stroke-indigo-500 w-24 h-24 md:w-32 md:h-32 top-1/2 left-5 md:left-20 animate-float-medium hidden sm:block" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" />
         </svg>
         
-        <div class="absolute top-20 right-32 w-20 h-20 border-2 border-cyan-500/20 rounded-xl animate-float-slow rotate-45"></div>
+        <div class="absolute top-20 right-10 md:right-32 w-12 h-12 md:w-20 md:h-20 border-2 border-cyan-500/20 rounded-xl animate-float-slow rotate-45 hidden sm:block"></div>
 
         <div class="absolute left-[10%] w-2 h-2 bg-blue-500 rounded-full animate-rise" style="animation-duration: 7s;"></div>
         <div class="absolute left-[30%] w-3 h-3 bg-cyan-500 rounded-full animate-rise" style="animation-duration: 12s; animation-delay: 2s;"></div>
@@ -126,21 +126,21 @@
         <div class="absolute left-[90%] w-4 h-4 bg-blue-400 rounded-full animate-rise opacity-20" style="animation-duration: 15s; animation-delay: 0s;"></div>
 
     </div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-blue-500/10 rounded-full blur-[50px] md:blur-[100px] pointer-events-none z-0"></div>
 
-    <div class="relative z-10 w-full max-w-[400px] px-4">
+    <div class="relative z-10 w-full max-w-[400px] px-4 sm:px-6">
         
-        <div class="neon-card rounded-2xl p-8 w-full animate-pulse-glow hover:animate-none">
+        <div class="neon-card rounded-xl md:rounded-2xl p-6 md:p-8 w-full animate-pulse-glow hover:animate-none">
             
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-500/10 border border-blue-400/30 mb-4 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-blue-400">
+            <div class="text-center mb-6 md:mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-blue-500/10 border border-blue-400/30 mb-3 md:mb-4 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 md:w-10 md:h-10 text-blue-400">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
                     </svg>
                 </div>
-                <h2 class="text-3xl font-bold text-white tracking-tight drop-shadow-md">SIMPEG RS</h2>
-                <p class="text-blue-200/70 text-sm mt-2">Login Secure System</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight drop-shadow-md">SIMPEG RS</h2>
+                <p class="text-blue-200/70 text-xs md:text-sm mt-2">Login Secure System</p>
             </div>
             @if ($errors->any())
             <div class="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm text-center">
@@ -152,30 +152,30 @@
             </div>
         @endif
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            <form method="POST" action="{{ route('login') }}" class="space-y-4 md:space-y-6">
                 @csrf
                 
                 <div>
-                    <label class="block text-xs font-bold text-blue-300 uppercase mb-2 tracking-wider">NIP / ID / EMAIL</label>
+                    <label class="block text-xs md:text-xs font-bold text-blue-300 uppercase mb-2 tracking-wider">NIP / ID / EMAIL</label>
                     <input type="text" name="identity" required autofocus
-                        class="input-tech w-full px-4 py-3 rounded-xl focus:outline-none"
+                        class="input-tech w-full px-3 md:px-4 py-3 rounded-lg md:rounded-xl focus:outline-none min-h-[48px]"
                         placeholder="Contoh: 1998200...">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-blue-300 uppercase mb-2 tracking-wider">Password</label>
                     <input type="password" name="password" required
-                        class="input-tech w-full px-4 py-3 rounded-xl focus:outline-none"
+                        class="input-tech w-full px-3 md:px-4 py-3 rounded-lg md:rounded-xl focus:outline-none min-h-[48px]"
                         placeholder="••••••••">
                 </div>
 
                 <button type="submit" 
-                    class="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(56,189,248,0.5)] hover:shadow-[0_0_35px_rgba(56,189,248,0.8)] transform hover:-translate-y-1 transition-all duration-300">
+                    class="w-full py-3 md:py-4 min-h-[52px] bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm md:text-base font-bold rounded-lg md:rounded-xl shadow-[0_0_20px_rgba(56,189,248,0.5)] hover:shadow-[0_0_35px_rgba(56,189,248,0.8)] transform hover:-translate-y-1 transition-all duration-300">
                     MASUK SISTEM
                 </button>
             </form>
 
-            <div class="mt-8 text-center">
+            <div class="mt-6 md:mt-8 text-center">
                 <p class="text-[10px] text-slate-500 font-mono">
                     SECURE CONNECTION ENCRYPTED
                 </p>

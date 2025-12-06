@@ -3,47 +3,51 @@
 @section('content')
     @include('components.neon-styles')
     
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-semibold text-white">Daftar Jabatan</h2>
-        <a href="{{ route('admin.jabatan.create') }}" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded shadow hover:shadow-lg hover:shadow-cyan-500/30 transition">Tambah Jabatan</a>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 md:mb-6">
+        <h2 class="text-xl md:text-2xl font-semibold text-slate-900">Daftar Jabatan</h2>
+        <a href="{{ route('admin.jabatan.create') }}" class="inline-flex items-center px-3 md:px-4 py-2.5 min-h-[44px] bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow-md transition text-sm whitespace-nowrap">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <span class="hidden sm:inline">Tambah Jabatan</span>
+            <span class="sm:hidden">Tambah</span>
+        </a>
     </div>
 
     <div class="card overflow-hidden">
         @if($jabatans->count())
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-white/10">
-                    <thead class="bg-slate-900/50">
+            <div class="overflow-x-auto -mx-4 sm:mx-0">
+                <table class="min-w-full divide-y divide-gray-100">
+                    <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">Nama Jabatan</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">Kode</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">Eselon</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">Unit Kerja</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-300 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-blue-300 uppercase tracking-wider">Aksi</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap">ID</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap">Nama Jabatan</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap">Kode</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap hidden lg:table-cell">Eselon</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap hidden lg:table-cell">Unit Kerja</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap">Status</th>
+                            <th class="px-3 md:px-6 py-2 md:py-3 text-right text-xs font-medium text-slate-600 uppercase tracking-wider whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-white/10 bg-transparent">
+                    <tbody class="divide-y divide-gray-100 bg-transparent">
                         @foreach($jabatans as $jabatan)
-                        <tr class="hover:bg-white/5 transition">
-                            <td class="px-6 py-4 text-sm text-slate-400">{{ $jabatan->id }}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-white">
-                                <a href="{{ route('admin.jabatan.show', $jabatan) }}" class="hover:text-blue-400 hover:underline">{{ $jabatan->nama_jabatan }}</a>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm text-slate-700 whitespace-nowrap">{{ $jabatan->id }}</td>
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-slate-900 whitespace-nowrap">
+                                <a href="{{ route('admin.jabatan.show', $jabatan) }}" class="hover:text-blue-600 hover:underline">{{ $jabatan->nama_jabatan }}</a>
                             </td>
-                            <td class="px-6 py-4 text-sm text-slate-300">{{ $jabatan->kode_jabatan }}</td>
-                            <td class="px-6 py-4 text-sm text-slate-300">{{ $jabatan->eselon }}</td>
-                            <td class="px-6 py-4 text-sm text-slate-300">{{ $jabatan->unit_kerja }}</td>
-                            <td class="px-6 py-4 text-sm">
-                                <span class="px-2 py-1 rounded text-xs {{ $jabatan->status == 'Aktif' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400' }}">
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm text-slate-700 whitespace-nowrap">{{ $jabatan->kode_jabatan }}</td>
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm text-slate-700 whitespace-nowrap hidden lg:table-cell">{{ $jabatan->eselon }}</td>
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm text-slate-700 whitespace-nowrap hidden lg:table-cell">{{ $jabatan->unit_kerja }}</td>
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm whitespace-nowrap">
+                                <span class="px-2 py-1 rounded text-xs font-semibold {{ $jabatan->status == 'Aktif' ? 'bg-green-500 text-white' : 'bg-red-500 text-white' }}">
                                     {{ $jabatan->status }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-right text-sm">
-                                <a href="{{ route('admin.jabatan.edit', $jabatan) }}" class="text-yellow-400 hover:text-yellow-300 hover:underline mr-3">Edit</a>
+                            <td class="px-3 md:px-6 py-3 md:py-4 text-right text-xs whitespace-nowrap">
+                                <a href="{{ route('admin.jabatan.edit', $jabatan) }}" class="text-indigo-600 hover:text-indigo-800 hover:underline mr-2 md:mr-3">Edit</a>
                                 <form action="{{ route('admin.jabatan.destroy', $jabatan) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Hapus jabatan ini?')" class="text-red-400 hover:text-red-300 hover:underline">Hapus</button>
+                                    <button type="submit" onclick="return confirm('Hapus jabatan ini?')" class="text-red-600 hover:text-red-800 hover:underline">Hapus</button>
                                 </form>
                             </td>
                         </tr>
@@ -52,11 +56,11 @@
                 </table>
             </div>
 
-            <div class="px-6 py-4 border-t border-white/10 bg-transparent">
+            <div class="px-6 py-4 border-t border-slate-200 bg-transparent">
                 {{ $jabatans->links() }} 
             </div>
         @else
-            <div class="p-6 text-center text-slate-400">Tidak ada data jabatan.</div>
+            <div class="p-6 text-center text-slate-600">Tidak ada data jabatan.</div>
         @endif
     </div>
 

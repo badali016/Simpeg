@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pegawai;
 use App\Models\Jabatan;
 use App\Models\PegawaiSimgos;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -101,8 +102,9 @@ class DashboardController extends Controller
         }
 
         $totalJabatan = Jabatan::count();
+        $totalUsers = User::count();
 
-        return view('dashboards.admin', compact('totalPegawai', 'totalJabatan', 'recentPegawais'));
+        return view('dashboards.admin', compact('totalPegawai', 'totalJabatan', 'totalUsers', 'recentPegawais'));
     }
 
     /**

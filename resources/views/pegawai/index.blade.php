@@ -3,47 +3,53 @@
 @section('content')
     @include('components.neon-styles')
 
-    <div class="flex items-center justify-between mb-4">
-        <div>
-            <h2 class="text-2xl font-semibold text-white">Daftar Pegawai</h2>
-            <p class="text-sm text-blue-200/80">Menampilkan data pegawai — cocokkan dengan SIMGOS bila tersedia</p>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+        <div class="flex-1 min-w-0">
+            <h2 class="text-xl md:text-2xl font-semibold text-slate-900">Daftar Pegawai</h2>
+            <p class="text-xs md:text-sm text-slate-500">Menampilkan data pegawai — cocokkan dengan SIMGOS bila tersedia</p>
         </div>
-        <a href="{{ route('admin.pegawai.create') }}" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-lg shadow-lg hover:scale-105 transform transition">Tambah Pegawai</a>
+        <a href="{{ route('admin.pegawai.create') }}" class="inline-flex items-center px-3 md:px-4 py-2.5 min-h-[44px] bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md transition text-sm whitespace-nowrap">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span class="hidden sm:inline">Tambah Pegawai</span>
+            <span class="sm:hidden">Tambah</span>
+        </a>
     </div>
 
     <div class="card overflow-hidden">
         @if($pegawais->count())
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-white/10">
-                    <thead class="bg-slate-900/50">
+            <div class="overflow-x-auto -mx-4 sm:mx-0">
+                <table class="min-w-full divide-y divide-gray-100">
+                    <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-200 uppercase tracking-wider">#</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-200 uppercase tracking-wider">NIP</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">Nama</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">Agama</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">Jenis Kelamin</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">Alamat</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">Jabatan</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-100 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-blue-100 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">#</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">NIP</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Nama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Agama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Jenis Kelamin</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Alamat</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Jabatan</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-600 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-transparent divide-y divide-gray-700">
+                    <tbody class="bg-transparent divide-y divide-gray-100">
                         @foreach($pegawais as $index => $pegawai)
                         <tr class="hover:bg-slate-800/40">
                             <td class="px-6 py-4 text-sm text-blue-100">{{ $pegawais->firstItem() + $index }}</td>
-                            <td class="px-6 py-4 text-sm text-blue-100">{{ $pegawai->nip }}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-white">
+                            <td class="px-6 py-4 text-sm text-slate-700">{{ $pegawai->nip }}</td>
+                            <td class="px-6 py-4 text-sm font-medium text-slate-800">
                                 @php
                                     $pegawaiKey = (is_object($pegawai) && isset($pegawai->id)) ? $pegawai->id : (method_exists($pegawai, 'getKey') ? $pegawai->getKey() : $pegawai);
                                     $displayName = $pegawai->nama ?? $pegawai->simgos_nama ?? $pegawai->NAMA ?? '-';
                                 @endphp
-                                <a href="{{ route('admin.pegawai.show', $pegawaiKey) }}" class="hover:underline text-white">{{ $displayName }}</a>
+                                <a href="{{ route('admin.pegawai.show', $pegawaiKey) }}" class="hover:underline text-blue-600">{{ $displayName }}</a>
                             </td>
-                            <td class="px-6 py-4 text-sm text-blue-100">{{ $pegawai->agama_nama ?? $pegawai->simgos_agama_nama ?? ($pegawai->agama ?? '-') }}</td>
-                            <td class="px-6 py-4 text-sm text-blue-100">{{ $pegawai->jenis_kelamin_nama ?? $pegawai->simgos_jenis_kelamin_nama ?? ($pegawai->jenis_kelamin ?? '-') }}</td>
-                            <td class="px-6 py-4 text-sm text-blue-100">{{ \Illuminate\Support\Str::limit($pegawai->alamat ?? ($pegawai->simgos_alamat ?? '-'), 60) }}</td>
-                            <td class="px-6 py-4 text-sm text-blue-100">
+                            <td class="px-6 py-4 text-sm text-slate-700">{{ $pegawai->agama_nama ?? $pegawai->simgos_agama_nama ?? ($pegawai->agama ?? '-') }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-700">{{ $pegawai->jenis_kelamin_nama ?? $pegawai->simgos_jenis_kelamin_nama ?? ($pegawai->jenis_kelamin ?? '-') }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-700">{{ \Illuminate\Support\Str::limit($pegawai->alamat ?? ($pegawai->simgos_alamat ?? '-'), 60) }}</td>
+                            <td class="px-6 py-4 text-sm text-slate-700">
                                     @php $isSimgos = is_object($pegawai) && ($pegawai->is_simgos ?? false); @endphp
                                     @php
                                         $jabLabel = $pegawai->profesi_nama ?? $pegawai->simgos_profesi_nama ?? ($pegawai->profesi ?? null);
