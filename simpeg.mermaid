@@ -1,0 +1,330 @@
+---
+config:
+  layout: elk
+---
+
+erDiagram
+    %% ===== MASTER DATA =====
+
+    religions {
+        uuid id PK
+        string name
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    genders {
+        uuid id PK
+        string name
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    positions {
+        uuid id PK
+        string name
+        text description
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    roles {
+        uuid id PK
+        string name
+        text description
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    locations {
+        uuid id PK
+        string name
+        text address
+        decimal latitude
+        decimal longitude
+        integer radius
+        boolean enforce_geofence
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    document_types {
+        uuid id PK
+        string name
+        string file_format
+        integer max_file_size
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    file_requirments {
+        uuid id PK
+        uuid position_id FK
+        uuid document_type_id FK
+        boolean is_required
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== SHIFT =====
+    shifts {
+        uuid id PK
+        string name
+        time start_time
+        time end_time
+        integer total_hours
+        text description
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    shift_patterns {
+        uuid id PK
+        string name
+        json days_of_week
+        text description
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    worker_shift_assigments {
+        uuid id PK
+        uuid worker_id FK
+        uuid shift_id FK
+        boolean is_default
+        boolean is_active
+        integer priority
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    worker_shift_schedules {
+        uuid id PK
+        uuid worker_id FK
+        uuid shift_id FK
+        enum day_of_week "monday-sunday (nullable) - untuk recurring"
+        boolean is_default "true=jadwal rutin, false=override"
+        date schedule_date "nullable - untuk override spesifik"
+        boolean is_override "true=exception/swap shift"
+        uuid replaced_worker_id FK "nullable - siapa yang digantikan"
+        enum status "Active/Inactive/Completed/Cancelled"
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== WORKER & USER =====
+    workers {
+        uuid id PK
+        string nip
+        string name
+        string email
+        string phone
+        text address
+        date birth_date
+        string birth_place
+        uuid gender_id FK
+        uuid religion_id FK
+        uuid position_id FK
+        date join_date
+        date resign_date
+        enum status
+        text notes
+        string photo
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    users {
+        uuid id PK
+        uuid worker_id FK
+        string name
+        string email
+        string username
+        timestamp email_verified_at
+        string password
+        uuid role_id FK
+        boolean is_active
+        string remember_token
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== ATTENDANCE =====
+    absents {
+        uuid id PK
+        uuid worker_id FK
+        uuid location_id FK
+        uuid worker_shift_schedule_id FK
+        uuid business_trip_id FK
+        datetime check_in
+        datetime check_out
+        decimal check_in_latitude
+        decimal check_in_longitude
+        decimal check_out_latitude
+        decimal check_out_longitude
+        decimal distance_from_office
+        text reason
+        enum status
+        enum absent_type
+        boolean present_by_admin
+        boolean is_late
+        integer late_minutes
+        boolean is_outside_radius
+        text notes
+        string photo_check_in
+        string photo_check_out
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== LEAVE & OVERTIME =====
+    leave_requests {
+        uuid id PK
+        uuid worker_id FK
+        enum leave_type
+        date start_date
+        date end_date
+        integer total_days
+        text reason
+        string attachment_url
+        enum status
+        uuid approved_by FK
+        timestamp approved_at
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    overtimes {
+        uuid id PK
+        uuid worker_id FK
+        date overtime_date
+        time start_time
+        time end_time
+        integer total_hours
+        text reason
+        enum status
+        uuid approved_by FK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== BUSINESS TRIP =====
+    business_trips {
+        uuid id PK
+        uuid worker_id FK
+        string title
+        string destination
+        text destination_address
+        decimal destination_latitude
+        decimal destination_longitude
+        text purpose
+        date start_date
+        date end_date
+        integer total_days
+        decimal budget
+        decimal actual_cost
+        string transport_type
+        enum status
+        uuid approved_by FK
+        timestamp approved_at
+        text notes
+        string attachment_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    business_trip_reports {
+        uuid id PK
+        uuid business_trip_id FK
+        string report_title
+        text report_content
+        string attachment_url
+        timestamp submitted_at
+        enum status
+        uuid reviewed_by FK
+        timestamp reviewed_at
+        text review_notes
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== DOCUMENTS =====
+    berkas {
+        uuid id PK
+        uuid worker_id FK
+        uuid keperluan_berkas_id FK
+        string file_name
+        string file_path
+        string file_type
+        integer file_size
+        enum status
+        uuid verified_by FK
+        timestamp verified_at
+        text rejection_reason
+        text notes
+        date expired_date
+        boolean is_expired
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== SALARY =====
+    salaries {
+        uuid id PK
+        uuid worker_id FK
+        decimal basic_salary
+        decimal allowance
+        decimal deduction
+        decimal total_salary
+        date payment_date
+        enum status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ===== RELATIONSHIPS =====
+    genders ||--o{ workers : "gender_id"
+    religions ||--o{ workers : "religion_id"
+    positions ||--o{ workers : "position_id"
+
+    workers ||--o| users : "worker_id"
+    roles ||--o{ users : "role_id"
+
+    workers ||--o{ salaries : "worker_id"
+    workers ||--o{ absents : "worker_id"
+    locations ||--o{ absents : "location_id"
+    worker_shift_schedules ||--o{ absents : "worker_shift_schedule_id"
+    business_trips ||--o{ absents : "business_trip_id"
+
+    workers ||--o{ worker_shift_schedules : "worker_id"
+    shifts ||--o{ worker_shift_schedules : "shift_id"
+
+    workers ||--o{ worker_shift_assigments : "worker_id"
+    shifts ||--o{ worker_shift_assigments : "shift_id"
+
+    document_types ||--o{ file_requirments : "document_type_id"
+    positions ||--o{ file_requirments : "position_id"
+    file_requirments ||--o{ berkas : "keperluan_berkas_id"
+    workers ||--o{ berkas : "worker_id"
+
+    workers ||--o{ leave_requests : "worker_id"
+    users ||--o{ leave_requests : "approved_by"
+
+    workers ||--o{ overtimes : "worker_id"
+    users ||--o{ overtimes : "approved_by"
+
+    workers ||--o{ business_trips : "worker_id"
+    users ||--o{ business_trips : "approved_by"
+    business_trips ||--o{ business_trip_reports : "business_trip_id"
+    users ||--o{ business_trip_reports : "reviewed_by"
+
+    users ||--o{ berkas : "verified_by"
+
+    workers ||--o{ worker_shift_schedules : "replaced_worker_id (swap)"

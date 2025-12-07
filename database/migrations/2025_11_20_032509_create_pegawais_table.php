@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('agama', 50)->nullable();
             $table->tinyInteger('jenis_kelamin')->nullable();
             $table->tinyInteger('profesi')->nullable();
-
-
             $table->tinyInteger('smf')->nullable()->comment('Spesialis/Sub. Spesialis');
             $table->string('alamat', 150)->nullable();
             $table->char('rt', 3)->nullable();

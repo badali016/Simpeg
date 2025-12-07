@@ -223,13 +223,12 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $data = $request->validate([
             'nama' => 'required|string|max:255',
             'profesi' => 'nullable|integer',
             'nip' => 'required|string|max:50|unique:pegawais,nip',
             'email' => 'nullable|email|max:255|unique:pegawais,email',
-            'panggilan' => 'nullable|string|max:15',
-            'alamat' => 'nullable|string|max:150',
         ]);
 
         $new = Pegawai::create($data);
